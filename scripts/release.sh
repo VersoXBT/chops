@@ -60,8 +60,37 @@ echo "🏷️  Tagging v$VERSION..."
 git tag "v$VERSION"
 git push --tags
 
+echo "📡 Generating Sparkle appcast..."
+SPARKLE_BIN=$(find ~/Library/Developer/Xcode/DerivedData/Chops-*/SourcePackages/artifacts/sparkle/Sparkle/bin -maxdepth 0 2>/dev/null | head -1)
+SIGNATURE=$("$SPARKLE_BIN/sign_update" build/Chops.dmg 2>&1)
+ED_SIG=$(echo "$SIGNATURE" | grep -o 'sparkle:edSignature="[^"]*"' | cut -d'"' -f2)
+LENGTH=$(echo "$SIGNATURE" | grep -o 'length="[^"]*"' | cut -d'"' -f2)
+PUB_DATE=$(date -u +"%a, %d %b %Y %H:%M:%S +0000")
+
+cat > build/appcast.xml << APPCAST
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Chops</title>
+    <item>
+      <title>Version $VERSION</title>
+      <sparkle:version>$VERSION</sparkle:version>
+      <sparkle:shortVersionString>$VERSION</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+      <pubDate>$PUB_DATE</pubDate>
+      <enclosure
+        url="https://github.com/Shpigford/chops/releases/download/v$VERSION/Chops.dmg"
+        sparkle:edSignature="$ED_SIG"
+        length="$LENGTH"
+        type="application/octet-stream"
+      />
+    </item>
+  </channel>
+</rss>
+APPCAST
+
 echo "🚀 Creating GitHub Release..."
-gh release create "v$VERSION" build/Chops.dmg \
+gh release create "v$VERSION" build/Chops.dmg build/appcast.xml \
   --title "Chops v$VERSION" \
   --generate-notes
 
