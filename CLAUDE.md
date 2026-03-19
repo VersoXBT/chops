@@ -1,0 +1,54 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What is Chops
+
+A native macOS app (SwiftUI + SwiftData) for discovering, organizing, and editing AI coding agent skills across tools (Claude Code, Cursor, Codex, Windsurf, Copilot, Aider, Amp). Fully open source (MIT), public repo at github.com/Shpigford/chops. No sandbox — requires full filesystem access to read user dotfiles.
+
+## Build & Run
+
+```bash
+# Generate Xcode project (required after changing project.yml)
+xcodegen generate
+
+# Open in Xcode
+open Chops.xcodeproj
+
+# CLI build
+xcodebuild -scheme Chops -configuration Release
+
+# Release (needs APPLE_TEAM_ID, APPLE_ID, SIGNING_IDENTITY_NAME env vars)
+./scripts/release.sh <version>
+```
+
+Requires: Xcode, `brew install xcodegen`, macOS 15+. Sparkle (>= 2.6.0) is the only external dependency (auto-updates via GitHub Releases).
+
+No test suite exists. Validate manually by building and running.
+
+## Architecture
+
+**Entry:** `Chops/App/ChopsApp.swift` → sets up SwiftData ModelContainer + Sparkle updater.
+
+**State:** `AppState` is an `@Observable` singleton holding UI filters, search text, and selection state.
+
+**Models (SwiftData):**
+- `Skill` — a discovered skill file. Uniquely identified by resolved symlink path. Tracks which tools it's installed in.
+- `SkillCollection` — user-created groupings of skills.
+
+**Services:**
+- `SkillScanner` — probes tool directories (~/.claude/skills/, ~/.cursor/rules/, etc.), parses frontmatter, upserts into SwiftData. Deduplicates via resolved symlink paths.
+- `FileWatcher` — FSEvents via `DispatchSourceFileSystemObject`, triggers re-scan on changes.
+- `SkillParser` → dispatches to `FrontmatterParser` (.md) or `MDCParser` (.mdc).
+
+**Views:** Three-column `NavigationSplitView` (Sidebar → List → Detail). Editor uses native `NSTextView` with markdown highlighting. Cmd+S save via `FocusedValues`.
+
+**Tool sources** are defined in `ToolSource.swift` — each enum case knows its display name, icon, and filesystem paths to scan.
+
+## Release Pipeline
+
+`scripts/release.sh` does: xcodegen → archive → export with Developer ID → create DMG → notarize → staple → git tag → generate Sparkle appcast.xml → GitHub Release. Appcast served at chops.md/appcast.xml.
+
+## Website
+
+Marketing site lives in `site/` — Astro 6, built with `npm run build` from that directory. Appcast XML is in `site/public/appcast.xml`.
