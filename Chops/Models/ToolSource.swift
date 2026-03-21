@@ -8,6 +8,7 @@ enum ToolSource: String, Codable, CaseIterable, Identifiable {
     case copilot
     case aider
     case amp
+    case openclaw
     case custom
 
     var id: String { rawValue }
@@ -21,6 +22,7 @@ enum ToolSource: String, Codable, CaseIterable, Identifiable {
         case .copilot: "Copilot"
         case .aider: "Aider"
         case .amp: "Amp"
+        case .openclaw: "OpenClaw"
         case .custom: "Custom"
         }
     }
@@ -35,6 +37,7 @@ enum ToolSource: String, Codable, CaseIterable, Identifiable {
         case .copilot: "airplane"
         case .aider: "wrench.and.screwdriver"
         case .amp: "bolt.fill"
+        case .openclaw: "server.rack"
         case .custom: "folder"
         }
     }
@@ -60,6 +63,7 @@ enum ToolSource: String, Codable, CaseIterable, Identifiable {
         case .copilot: .purple
         case .aider: .yellow
         case .amp: .pink
+        case .openclaw: .indigo
         case .custom: .gray
         }
     }
@@ -74,6 +78,7 @@ enum ToolSource: String, Codable, CaseIterable, Identifiable {
         case .copilot: return []
         case .aider: return []
         case .amp: return ["\(home)/.config/amp"]
+        case .openclaw: return []
         case .custom: return []
         }
     }
