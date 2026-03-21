@@ -11,8 +11,16 @@ Cut a new release of Chops. Determines the version from git history, updates the
 
 1. Confirm `.env` exists in the project root. If it does not, stop and tell the user:
    "Missing `.env` file. Copy `.env.example` to `.env` and fill in APPLE_TEAM_ID, APPLE_ID, and SIGNING_IDENTITY_NAME."
-2. Confirm the working tree is clean (`git status --porcelain`). If there are uncommitted changes, stop and tell the user to commit or stash first.
-3. Confirm you are on the `main` branch. If not, stop and tell the user to switch to `main` first.
+2. Confirm the notarytool keychain profile `AC_PASSWORD` works:
+   ```bash
+   xcrun notarytool history --keychain-profile "AC_PASSWORD" >/dev/null 2>&1
+   ```
+   If it fails, stop and tell the user to run:
+   ```bash
+   xcrun notarytool store-credentials "AC_PASSWORD" --apple-id "<APPLE_ID>" --team-id "<TEAM_ID>" --password "<app-specific-password>"
+   ```
+3. Confirm the working tree is clean (`git status --porcelain`). If there are uncommitted changes, stop and tell the user to commit or stash first.
+4. Confirm you are on the `main` branch. If not, stop and tell the user to switch to `main` first.
 
 ### Step 2: Determine the next version
 
@@ -48,6 +56,18 @@ Always confirm the version before proceeding. Use `mcp__conductor__AskUserQuesti
 
 If the user picks "Use a different version", ask them for the version number. If they pick "Cancel", stop.
 
+### Step 3.5: Update CHANGELOG.md
+
+1. Check if `CHANGELOG.md` has an `## [Unreleased]` section with content (bullet points).
+2. If the `## [Unreleased]` section is empty or missing, draft entries from commits since the last tag:
+   - **Rewrite each entry to be user-facing.** Don't echo commit messages. Describe what changed from the user's perspective — what it enables, fixes, or improves.
+   - Bad: "feat: add skills registry browser with multi-agent install"
+   - Good: "Browse and install community skills directly from the app"
+   - Keep entries succinct (one line each). No technical jargon, no commit prefixes.
+   - Confirm the drafted entries with the user using `mcp__conductor__AskUserQuestion`.
+3. Rename `## [Unreleased]` to `## [VERSION] - YYYY-MM-DD` (today's date).
+4. Add a new empty `## [Unreleased]` section above it.
+
 ### Step 4: Update the marketing site version
 
 1. Edit `site/src/pages/index.astro`. Find the line containing `class="requires"` and replace it with:
@@ -55,10 +75,11 @@ If the user picks "Use a different version", ask them for the version number. If
    <p class="requires">v<VERSION> &middot; Requires macOS Sequoia</p>
    ```
    where `<VERSION>` is the confirmed version.
-2. Commit this change:
+2. Commit this change along with the changelog:
    ```bash
-   git add site/src/pages/index.astro
+   git add site/src/pages/index.astro CHANGELOG.md
    git commit -m "chore: update site version to v<VERSION>"
+   git push
    ```
 
 ### Step 5: Run the release script
