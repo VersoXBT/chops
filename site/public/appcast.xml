@@ -3,6 +3,20 @@
   <channel>
     <title>Chops</title>
     <item>
+      <title>Version 1.5.0</title>
+      <sparkle:version>1.5.0</sparkle:version>
+      <sparkle:shortVersionString>1.5.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+      <pubDate>Sat, 21 Mar 2026 17:17:31 +0000</pubDate>
+      <description><![CDATA[<ul><li>Connect to remote servers (such as OpenClaw) to discover, browse, and edit skills (@t2)</li></ul>]]></description>
+      <enclosure
+        url="https://github.com/Shpigford/chops/releases/download/v1.5.0/Chops.dmg"
+        sparkle:edSignature="LKJq0Pl5JbGei5RMgkTbckCYOOUUIzN+8ICYHh7pxMjfuq5b5PsnjIYsZj/tORGssYg68NVq2sHoTRfcP/+oAQ=="
+        length="5028073"
+        type="application/octet-stream"
+      />
+    </item>
+    <item>
       <title>Version 1.4.0</title>
       <sparkle:version>1.4.0</sparkle:version>
       <sparkle:shortVersionString>1.4.0</sparkle:shortVersionString>
