@@ -35,6 +35,8 @@ struct SkillListView: View {
             result = result.filter { skill in
                 skill.collections.contains { $0.name == collName }
             }
+        case .server(let serverID):
+            result = result.filter { $0.remoteServer?.id == serverID }
         }
 
         if !appState.searchText.isEmpty {
@@ -54,6 +56,8 @@ struct SkillListView: View {
         case .favorites: "Favorites"
         case .tool(let tool): tool.displayName
         case .collection(let name): name
+        case .server(let id):
+            allSkills.first(where: { $0.remoteServer?.id == id })?.remoteServer?.label ?? "Remote Skills"
         }
     }
 
@@ -82,9 +86,11 @@ struct SkillListView: View {
                             skill.isFavorite.toggle()
                             try? modelContext.save()
                         }
-                        Divider()
-                        Button("Show in Finder") {
-                            NSWorkspace.shared.selectFile(skill.filePath, inFileViewerRootedAtPath: "")
+                        if !skill.isRemote {
+                            Divider()
+                            Button("Show in Finder") {
+                                NSWorkspace.shared.selectFile(skill.filePath, inFileViewerRootedAtPath: "")
+                            }
                         }
                         Divider()
                         Button("Delete", role: .destructive) {
@@ -141,7 +147,12 @@ struct SkillRow: View {
 
             Spacer()
 
-            if let project = skill.projectName {
+            if skill.isRemote, let serverLabel = skill.remoteServer?.label {
+                Text(serverLabel)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                    .lineLimit(1)
+            } else if let project = skill.projectName {
                 Text(project)
                     .font(.caption)
                     .foregroundStyle(.tertiary)
