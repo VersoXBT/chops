@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-03-22
+
+- Fix layout freeze when selecting a skill
+- Press Enter to quickly create new collections
+- Rename collections from the right-click menu
+
 ## [1.5.0] - 2026-03-21
 
 - Connect to remote servers (such as OpenClaw) to discover, browse, and edit skills (@t2)
