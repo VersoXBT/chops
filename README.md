@@ -7,6 +7,7 @@
 <p align="center">Your AI agent skills, plugins, agents, and MCP servers — finally organized.</p>
 
 <p align="center">
+  <a href="https://github.com/VersoXBT/chops/releases/latest/download/Chops.dmg">Download DMG</a> &middot;
   <a href="https://github.com/Shpigford/chops">Original Repo</a> &middot;
   <a href="https://chops.md">Website</a>
 </p>
