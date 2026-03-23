@@ -2,21 +2,31 @@
   <img src="site/public/favicon.png" width="128" height="128" alt="Chops icon" />
 </p>
 
-<h1 align="center">Chops</h1>
+<h1 align="center">Chops (Enhanced Fork)</h1>
 
-<p align="center">Your AI agent skills, finally organized.</p>
+<p align="center">Your AI agent skills, plugins, agents, and MCP servers — finally organized.</p>
 
 <p align="center">
-  <a href="https://github.com/Shpigford/chops/releases/latest/download/Chops.dmg">Download</a> &middot;
-  <a href="https://chops.md">Website</a> &middot;
-  <a href="https://x.com/Shpigford">@Shpigford</a>
+  <a href="https://github.com/Shpigford/chops">Original Repo</a> &middot;
+  <a href="https://chops.md">Website</a>
 </p>
 
 <p align="center">
   <img src="site/public/screenshot.png" width="720" alt="Chops screenshot" />
 </p>
 
-One macOS app to discover, organize, and edit coding agent skills across Claude Code, Cursor, Codex, Windsurf, and Amp. Stop digging through dotfiles.
+One macOS app to discover, organize, and edit coding agent skills across Claude Code, Cursor, Codex, Windsurf, and Amp. **This fork adds dynamic filesystem scanning for Claude Code plugins, agents, and MCP servers.**
+
+## What This Fork Adds
+
+- **Plugin Scanner** — Reads `~/.claude/plugins/installed_plugins.json` and displays all installed Claude Code plugins with version, scope, marketplace, and install path
+- **Agent Scanner** — Scans `~/.claude/agents/*.md`, parses YAML frontmatter (name, description, color, emoji, vibe), and renders full markdown content
+- **MCP Server Scanner** — Discovers MCP server configurations from `~/.claude/plugins/cache/*/mcp-configs/mcp-servers.json` with command, args, and source plugin info
+- **Catalog Sidebar Section** — New "Catalog" section in the sidebar showing Plugins, Agents, and MCP Servers with real-time counts
+- **Read-Only Detail Views** — Click any catalog item to see full metadata and content in the detail panel
+- **Search Integration** — Full-text search works across all catalog items
+
+All catalog data is scanned from the filesystem on app launch and re-scanned automatically via FSEvents file watching. No static catalogs, no install buttons — just visibility into your Claude Code configuration.
 
 ## Features
 
@@ -27,6 +37,7 @@ One macOS app to discover, organize, and edit coding agent skills across Claude 
 - **Full-text search** — Search across name, description, and content
 - **Create new skills** — Generates correct boilerplate per tool
 - **Remote skill servers** — Connect to servers like [OpenClaw](https://openclaw.ai) to discover, browse, and install skills
+- **Claude Code Catalog** — Browse installed plugins, agents, and MCP servers (this fork)
 
 ## Prerequisites
 
@@ -40,7 +51,7 @@ Sparkle (auto-update framework) is the only external dependency and is pulled au
 ## Quick Start
 
 ```bash
-git clone https://github.com/Shpigford/chops.git
+git clone https://github.com/VersoXBT/chops.git
 cd chops
 brew install xcodegen    # skip if already installed
 xcodegen generate        # generates Chops.xcodeproj from project.yml
@@ -67,10 +78,12 @@ Chops/
 │   └── ContentView.swift      # Three-column NavigationSplitView, kicks off scanning
 ├── Models/
 │   ├── Skill.swift            # @Model — a discovered skill file
+│   ├── CatalogEntry.swift     # Plugin, Agent, MCP Server structs + CatalogCategory
 │   ├── Collection.swift       # @Model — user-created skill groupings
 │   └── ToolSource.swift       # Enum of supported tools, their paths and icons
 ├── Services/
 │   ├── SkillScanner.swift     # Probes tool directories, upserts skills into SwiftData
+│   ├── CatalogService.swift   # Scans plugins, agents, MCP servers from filesystem
 │   ├── SkillParser.swift      # Dispatches to FrontmatterParser or MDCParser
 │   ├── FileWatcher.swift      # FSEvents listener, triggers re-scan on changes
 │   └── SearchService.swift    # In-memory full-text search
@@ -78,10 +91,10 @@ Chops/
 │   ├── FrontmatterParser.swift  # Extracts YAML frontmatter from .md files
 │   └── MDCParser.swift          # Parses Cursor .mdc files
 ├── Views/
-│   ├── Sidebar/               # Tool filters, collection list
+│   ├── Sidebar/               # Tool filters, catalog section, collection list
 │   ├── Detail/                # Skill editor, metadata display
 │   ├── Settings/              # Preferences & update UI
-│   └── Shared/                # Reusable components (ToolBadge, NewSkillSheet)
+│   └── Shared/                # CatalogListView, CatalogDetailView, reusable components
 ├── Resources/                 # Asset catalog (tool icons, colors)
 └── Chops.entitlements         # Disables sandbox (intentional)
 
@@ -101,7 +114,8 @@ site/                # Marketing website (Astro 6)
 3. `AppState` is created and injected into the SwiftUI environment
 4. `ContentView` renders and calls `startScanning()`
 5. `SkillScanner` probes all tool directories and upserts discovered skills
-6. `FileWatcher` attaches FSEvents listeners — on any change, the scanner re-runs automatically
+6. `CatalogService` scans plugins, agents, and MCP servers from the Claude Code filesystem
+7. `FileWatcher` attaches FSEvents listeners — on any change, both scanners re-run automatically
 
 ### Key design decisions
 
@@ -111,14 +125,14 @@ site/                # Marketing website (Astro 6)
 
 ### State management
 
-`AppState` is an `@Observable` class that holds all UI state: selected tool filter, selected skill, search text, sidebar filter mode. It's injected via `@Environment` and accessible from any view.
+`AppState` is an `@Observable` class that holds all UI state: selected tool filter, selected skill, selected catalog item, search text, sidebar filter mode. It's injected via `@Environment` and accessible from any view.
 
 ### UI layout
 
 Three-column `NavigationSplitView`:
-- **Sidebar** — tool filters and collections
-- **List** — filtered/searched skill list
-- **Detail** — skill editor (wraps `NSTextView` for native text editing with Cmd+S save)
+- **Sidebar** — tool filters, catalog categories (plugins/agents/MCP servers), and collections
+- **List** — filtered/searched skill or catalog item list
+- **Detail** — skill editor or catalog item detail view
 
 ## Supported Tools
 
@@ -131,6 +145,14 @@ Chops scans these directories for skills:
 | Windsurf | `~/.codeium/windsurf/memories/`, `~/.windsurf/rules` |
 | Codex | `~/.codex` |
 | Amp | `~/.config/amp` |
+
+### Claude Code Catalog (this fork)
+
+| Category | Data Source |
+|----------|-----------|
+| Plugins | `~/.claude/plugins/installed_plugins.json` |
+| Agents | `~/.claude/agents/*.md` |
+| MCP Servers | `~/.claude/plugins/cache/*/mcp-configs/mcp-servers.json` |
 
 Copilot and Aider are also supported but only detect project-level skills (no global paths). Custom paths can be added for any tool.
 
@@ -178,6 +200,11 @@ npm run build    # production build → site/dist/
 ## AI Agent Setup
 
 This repo includes a Claude Code skill at `.claude/skills/setup.md` that gives AI coding agents full context on the project — architecture, key files, and common tasks. If you're using Claude Code, it'll pick this up automatically.
+
+## Credits
+
+- Original project by [@Shpigford](https://github.com/Shpigford/chops)
+- Catalog scanning fork by [@VersoXBT](https://github.com/VersoXBT/chops)
 
 ## License
 

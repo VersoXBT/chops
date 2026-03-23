@@ -8,22 +8,30 @@ struct ContentView: View {
     @State private var scanner: SkillScanner?
     @State private var fileWatcher: FileWatcher?
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @State private var catalogService = CatalogService()
 
     var body: some View {
         @Bindable var appState = appState
 
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            SidebarView()
+            SidebarView(catalog: catalogService)
         } content: {
-            SkillListView()
+            if case .catalogCategory(let category) = appState.sidebarFilter {
+                CatalogListView(catalog: catalogService, category: category)
+            } else {
+                SkillListView()
+            }
         } detail: {
-            if let skill = appState.selectedSkill {
+            if case .catalogCategory = appState.sidebarFilter,
+               let catalogItem = appState.selectedCatalogItem {
+                CatalogDetailView(selection: catalogItem)
+            } else if let skill = appState.selectedSkill {
                 SkillDetailView(skill: skill)
             } else {
                 ContentUnavailableView(
-                    "Select a Skill",
+                    "Select an Item",
                     systemImage: "doc.text",
-                    description: Text("Choose a skill from the sidebar to view and edit it.")
+                    description: Text("Choose an item from the sidebar to view it.")
                 )
             }
         }
@@ -68,15 +76,18 @@ struct ContentView: View {
         self.scanner = scanner
         scanner.removeDeletedSkills()
         scanner.scanAll()
+        catalogService.scanAll()
 
         var allPaths: [String] = []
         for tool in ToolSource.allCases {
             allPaths.append(contentsOf: tool.globalPaths)
         }
 
+        let catalogRef = catalogService
         let watcher = FileWatcher { _ in
             scanner.scanAll()
             scanner.removeDeletedSkills()
+            catalogRef.scanAll()
         }
         watcher.watchDirectories(allPaths)
         self.fileWatcher = watcher

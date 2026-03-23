@@ -11,6 +11,8 @@ struct SidebarView: View {
     @State private var serverErrors: [String: String] = [:]
     @State private var showingErrorForServer: String?
 
+    var catalog: CatalogService
+
     private var activeSources: [ToolSource] {
         ToolSource.allCases.filter { tool in
             allSkills.contains { $0.toolSources.contains(tool) }
@@ -100,12 +102,33 @@ struct SidebarView: View {
                 }
             }
 
+            Section("Catalog") {
+                ForEach(CatalogCategory.allCases) { category in
+                    Label {
+                        Text(category.displayName)
+                    } icon: {
+                        Image(systemName: category.iconName)
+                            .foregroundStyle(.secondary)
+                    }
+                    .badge(catalogCount(category))
+                    .tag(SidebarFilter.catalogCategory(category))
+                }
+            }
+
             Section("Collections") {
                 CollectionListView()
             }
         }
         .listStyle(.sidebar)
         .navigationTitle("Chops")
+    }
+
+    private func catalogCount(_ category: CatalogCategory) -> Int {
+        switch category {
+        case .plugin: catalog.plugins.count
+        case .agent: catalog.agents.count
+        case .mcpServer: catalog.mcpServers.count
+        }
     }
 
     private func syncServer(_ server: RemoteServer) {

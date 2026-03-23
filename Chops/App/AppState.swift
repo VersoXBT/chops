@@ -4,6 +4,7 @@ import SwiftUI
 final class AppState {
     var selectedTool: ToolSource?
     var selectedSkill: Skill?
+    var selectedCatalogItem: CatalogSelection?
     var searchText: String = ""
     var showingNewSkillSheet: Bool = false
     var showingRegistrySheet: Bool = false
@@ -16,4 +17,5 @@ enum SidebarFilter: Hashable {
     case tool(ToolSource)
     case collection(String)
     case server(String)
+    case catalogCategory(CatalogCategory)
 }

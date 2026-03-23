@@ -10,10 +10,12 @@
 		09D3F065191A83BDEE922789 /* SkillDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168E103488DEA623E712852B /* SkillDetailView.swift */; };
 		2263A0A3B358FBA099D0086D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A924245DDDA4C6A59BE15567 /* SettingsView.swift */; };
 		25A4FB387DB5BD96DB630C14 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 231C267216AF1BCA8628B667 /* AppState.swift */; };
+		2B28B987D497B58019B28650 /* CatalogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC3EC79774473C1EE5A47 /* CatalogDetailView.swift */; };
 		309B12E0B72A22C9772BBC99 /* ChopsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2787064DC7DF112E70C4E4D0 /* ChopsApp.swift */; };
 		331F55021A7E6C9F0B666514 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 4338FC540625A275BBC9AAC9 /* Sparkle */; };
 		480681BAD19F7CAF6AE154A2 /* RemoteServersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E684304D1723CA691F40335B /* RemoteServersSettingsView.swift */; };
 		53C393C13E30EC439317509F /* ToolBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6AE242CAD6A285DD57079 /* ToolBadge.swift */; };
+		558967C17812E77F7B57446D /* CatalogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5433EFE415D9EB590786BE /* CatalogEntry.swift */; };
 		5B81DED237A60776ADB04134 /* RemoteServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314080A44DEB895223E36D5 /* RemoteServer.swift */; };
 		60A6711BAB0C3B8A3ACBF985 /* SkillParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5155D141EF812A3FE9ADF59C /* SkillParser.swift */; };
 		6A8E0927D95BB14C9F377F4E /* SkillScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A5B26D335C1AFB6CDE8207 /* SkillScanner.swift */; };
@@ -37,11 +39,13 @@
 		C30BEAE03E54BD36F257A925 /* ToolFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5774429CCE83C2AFBE046C /* ToolFilterView.swift */; };
 		C6CFF37CC0B155E8846344A4 /* ChopsIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 04C3C644B72DD508A7CBC403 /* ChopsIcon.icon */; };
 		CBD8FECF1C5A453C8B021665 /* FrontmatterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C77C5B30E6C885B39444E5B /* FrontmatterParser.swift */; };
+		CC525A35287DBE704FF35763 /* CatalogListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD374A4F2D8CB1C4AEAAD19 /* CatalogListView.swift */; };
 		CCD92CB102DFA0965D6AFDB5 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7822031FD82A28978D9C5 /* SidebarView.swift */; };
 		CECE9BEEC1D933C543B66A4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17F7FE50C96124BA4EE43A6F /* Assets.xcassets */; };
 		D4C107BE303FC07CAF9C66AF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0F71982C4AF0045962380 /* ContentView.swift */; };
 		E6F4E1CF50F2F78F5BA9BAC9 /* SkillPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E332B9970E6E3D00DCFBA3 /* SkillPreviewView.swift */; };
 		E98F7490B18A194F82ED2C0E /* SkillListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA64A368BBF950CD36C4F495 /* SkillListView.swift */; };
+		F83D5A6E866F492FFE607A63 /* CatalogService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D9C4BFAD20FB5EAB0C2205 /* CatalogService.swift */; };
 		F98B1E8579B139FD2A801650 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFC47BDE92105F4736B379F /* SearchService.swift */; };
 		FB295303DD30AED03290C726 /* SkillEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B4DB87833D5160A11E39C9 /* SkillEditorView.swift */; };
 		FD8D2544AE423F4AB2843C0F /* AgentTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907E59B064AB8366B60BF611 /* AgentTarget.swift */; };
@@ -61,9 +65,11 @@
 		4CA102A49ACFB23BC15794F8 /* CollectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionListView.swift; sourceTree = "<group>"; };
 		5155D141EF812A3FE9ADF59C /* SkillParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillParser.swift; sourceTree = "<group>"; };
 		5487D9027B97F7E9EE9A1F4A /* ToolSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolSource.swift; sourceTree = "<group>"; };
+		5F5433EFE415D9EB590786BE /* CatalogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogEntry.swift; sourceTree = "<group>"; };
 		60E0F71982C4AF0045962380 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6797D4AC1970DB9ACB5ACA73 /* SSHService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHService.swift; sourceTree = "<group>"; };
 		77E332B9970E6E3D00DCFBA3 /* SkillPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillPreviewView.swift; sourceTree = "<group>"; };
+		7AD374A4F2D8CB1C4AEAAD19 /* CatalogListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogListView.swift; sourceTree = "<group>"; };
 		7C77C5B30E6C885B39444E5B /* FrontmatterParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontmatterParser.swift; sourceTree = "<group>"; };
 		7FCD6C2A8BE68F553A9CA392 /* RegistrySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrySheet.swift; sourceTree = "<group>"; };
 		7FFC47BDE92105F4736B379F /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
@@ -80,10 +86,12 @@
 		CAD26AA4787A2E0CDC86AADC /* FileWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcher.swift; sourceTree = "<group>"; };
 		D57F2C41F08F6E1BEFC5ADD4 /* HighlightrSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightrSyntaxHighlighter.swift; sourceTree = "<group>"; };
 		D5D3C2567FBF8DBA4DE957B3 /* DiagnosticExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticExporter.swift; sourceTree = "<group>"; };
+		E0D9C4BFAD20FB5EAB0C2205 /* CatalogService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogService.swift; sourceTree = "<group>"; };
 		E684304D1723CA691F40335B /* RemoteServersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteServersSettingsView.swift; sourceTree = "<group>"; };
 		E6A5B26D335C1AFB6CDE8207 /* SkillScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillScanner.swift; sourceTree = "<group>"; };
 		F02A00F80E4712872205EA7B /* NewSkillSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSkillSheet.swift; sourceTree = "<group>"; };
 		F45D5C8E8C732B2F4A867E43 /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
+		F46AC3EC79774473C1EE5A47 /* CatalogDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +143,8 @@
 		1B016A7C37052B1801FCFD6A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				F46AC3EC79774473C1EE5A47 /* CatalogDetailView.swift */,
+				7AD374A4F2D8CB1C4AEAAD19 /* CatalogListView.swift */,
 				F02A00F80E4712872205EA7B /* NewSkillSheet.swift */,
 				7FCD6C2A8BE68F553A9CA392 /* RegistrySheet.swift */,
 				A7B6AE242CAD6A285DD57079 /* ToolBadge.swift */,
@@ -177,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				F45D5C8E8C732B2F4A867E43 /* AppLogger.swift */,
+				E0D9C4BFAD20FB5EAB0C2205 /* CatalogService.swift */,
 				CAD26AA4787A2E0CDC86AADC /* FileWatcher.swift */,
 				7FFC47BDE92105F4736B379F /* SearchService.swift */,
 				5155D141EF812A3FE9ADF59C /* SkillParser.swift */,
@@ -191,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				907E59B064AB8366B60BF611 /* AgentTarget.swift */,
+				5F5433EFE415D9EB590786BE /* CatalogEntry.swift */,
 				C9AFE1AF02B0F8057791C2A9 /* Collection.swift */,
 				3314080A44DEB895223E36D5 /* RemoteServer.swift */,
 				B1F8AA042D5D8A9F92F35CA3 /* SchemaVersions.swift */,
@@ -318,6 +330,10 @@
 				FD8D2544AE423F4AB2843C0F /* AgentTarget.swift in Sources */,
 				A99BA179E0520DCDC98E1382 /* AppLogger.swift in Sources */,
 				25A4FB387DB5BD96DB630C14 /* AppState.swift in Sources */,
+				2B28B987D497B58019B28650 /* CatalogDetailView.swift in Sources */,
+				558967C17812E77F7B57446D /* CatalogEntry.swift in Sources */,
+				CC525A35287DBE704FF35763 /* CatalogListView.swift in Sources */,
+				F83D5A6E866F492FFE607A63 /* CatalogService.swift in Sources */,
 				309B12E0B72A22C9772BBC99 /* ChopsApp.swift in Sources */,
 				7A17C99C5EFAE3AA9E788D50 /* Collection.swift in Sources */,
 				7EC6156934D559226BC78859 /* CollectionListView.swift in Sources */,

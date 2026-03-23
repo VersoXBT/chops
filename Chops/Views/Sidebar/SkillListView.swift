@@ -37,6 +37,8 @@ struct SkillListView: View {
             }
         case .server(let serverID):
             result = result.filter { $0.remoteServer?.id == serverID }
+        case .catalogCategory:
+            result = []
         }
 
         if !appState.searchText.isEmpty {
@@ -58,6 +60,7 @@ struct SkillListView: View {
         case .collection(let name): name
         case .server(let id):
             allSkills.first(where: { $0.remoteServer?.id == id })?.remoteServer?.label ?? "Remote Skills"
+        case .catalogCategory(let cat): cat.displayName
         }
     }
 
